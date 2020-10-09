@@ -10,8 +10,12 @@ router.post('/', async (req, res) => {
     
     const { username, email, password } = req.body;
 
-    if (!username || !password || !email){
+    if (!password || !email){
         return res.status(400).json({ msg: "Please enter all details" })
+    }
+
+    if(password.length < 8){
+        return res.status(400).json({ msg: "Please enter a password of length > 8" })
     }
 
     User.findOne({ email })
