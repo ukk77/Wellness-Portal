@@ -1,0 +1,13 @@
+.login_boxes{
+  margin: 20px;
+}
+
+.login_form{
+  display: flex;
+  justify-content: space-between;
+  /* margin: 20px; */
+}
+
+.login_card{
+  width: 35%;
+}
