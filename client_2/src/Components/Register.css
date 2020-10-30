@@ -1,0 +1,50 @@
+
+.wrapper{
+    background: linear-gradient(45deg,  rgb(233, 150, 150), rgb(161, 161, 245));
+    background-color:rgb(195, 199, 199);
+    position: absolute;
+    width:50%;
+    height: 50%;
+    left:50%; 
+    top: 50%;
+    transform: translate(-50%,-50%);
+}
+
+.login_form_wrapper{
+    display: block;
+}
+
+.login_form{
+    display: block;
+    margin: 20px;
+    justify-content: space-evenly;
+}
+
+.names{
+    display: flex;
+    margin: 20px;
+}
+
+.username_field{
+    margin: 20px;
+}
+
+.password_field{
+    margin: 20px;
+}
+
+.firstName_box{
+    margin: 10px;
+}
+
+.lastName_box{
+    margin: 10px;
+}
+
+.MuiFormControl-root{
+    margin: 5px;
+}
+
+.MuiButton-root{
+    margin: 5px;
+}

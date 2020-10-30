@@ -1,0 +1,16 @@
+
+ul{
+    color : white;
+    padding : 10px;
+}
+
+.display{
+    width: 30%;
+    padding: 10px;
+}
+
+.search_form{
+    /* padding: 5%; */
+    margin-left : 30%;
+    margin-top: 15%;
+}

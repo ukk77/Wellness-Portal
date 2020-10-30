@@ -1,0 +1,7 @@
+body{
+    background-image: url('patient-doctor-image.jpeg');
+    height: 100%;
+    width: 100%;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
