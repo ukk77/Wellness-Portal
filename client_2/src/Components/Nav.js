@@ -5,7 +5,7 @@ import AuthService from '../Services/AuthService'
 import { AuthContext } from '../Context/AuthContext'
 
 function Nav(props) {
-    const { user,setUser, isAuthenticated, setIsAuthenticated } = useContext(AuthContext)
+    const { user,setUser, isAuthenticated, setIsAuthenticated, patientData, setPatientData } = useContext(AuthContext)
 
     const onCLickLogoutHandler = () => {
         AuthService.logout()
@@ -13,6 +13,7 @@ function Nav(props) {
             if(data.success){
                 setUser(data.user)
                 setIsAuthenticated(false)
+                setPatientData( patientData => [])
             }
         })
     }

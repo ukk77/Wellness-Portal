@@ -1,5 +1,18 @@
+.info1{
+    display: flex;
+    margin-left: 20%;
+    margin-top: 5%;
+}
+
 .info{
     display: flex;
     margin-left: 20%;
-    margin-top: 15%;
+}
+
+.show_bookings{
+    margin-left: 20%
+}
+
+.booking_list_element{
+    align-items: center
 }

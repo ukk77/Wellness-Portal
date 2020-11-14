@@ -31,7 +31,9 @@ userRouter.post('/register', (req, res) => {
             return res.status(400).json({ message : { msgBody : "Username is already taken", msgError : true } })
         }
         else {
-            let dateOfBirth = new Date();
+            let [month, date, year]    = new Date().toLocaleDateString("en-US").split("/")
+            let dateOfBirth = "" + month.toString() + "-" + date.toString() + "-" + year.toString(); 
+            console.log(dateOfBirth)
             let role = "Patient";
             let information = { gender:"", age:00, blood_type: "" }
             let bookings = []
@@ -84,14 +86,14 @@ userRouter.get('/logout', passport.authenticate('jwt', {session : false }), (req
 //route to keep front end and back end synced 
 userRouter.get('/authenticated', passport.authenticate('jwt', {session : false }), (req, res) => {
     const {username, firstName, lastName, dateOfBirth, role, bookings, access_to, information} = req.user;
-    res.status(200).json({ isAuthenticated: true, user : { username, role, bookings, access_to, information }})
+    res.status(200).json({ isAuthenticated: true, user : { username, firstName, lastName, dateOfBirth, role, bookings, access_to, information }})
 })
 
 
 //Route to handle user profile updates
 userRouter.post('/updateprofile', passport.authenticate('jwt', {session : false }), (req, res) => {
     const {username, firstName, lastName, dateOfBirth, role, bookings, access_to, information} = req.body;
-    User.updateOne({ username : username }, { information : information }, function (err, result){
+    User.updateOne({ username : username }, { firstName : firstName, lastName : lastName, dateOfBirth : dateOfBirth, information : information }, function (err, result){
         if (err){
             return res.status(500).json({ message : { msgBody : err + " Error has occured", msgError : true } })
         }
@@ -100,6 +102,7 @@ userRouter.post('/updateprofile', passport.authenticate('jwt', {session : false 
         }
     })
 })
+
 
 //route to handle a role update(only accessible via postman client)
 userRouter.post('/updaterole', passport.authenticate('jwt', {session : false }), (req, res) => {
@@ -130,7 +133,7 @@ userRouter.post('/updatebookings', passport.authenticate('jwt', {session : false
 //route to handle requests that update a doctor's access to a patients data when an appointment is booked
 userRouter.post('/updateaccessto', passport.authenticate('jwt', {session : false }), (req, res) => {
     const {username, firstName, lastName, dateOfBirth, role, bookings, access_to, information} = req.body;
-    User.updateOne({ username : username }, { $addToSet : { access_to : [access_to[0]] } }, function (err, result){
+    User.updateOne({ username : username }, { $addToSet : { access_to : access_to } }, function (err, result){
         if (err){
             return res.status(500).json({ message : { msgBody : err + " Error has occured", msgError : true } })
         }
@@ -151,6 +154,22 @@ userRouter.post('/getUserId', passport.authenticate('jwt', {session : false }), 
         else {
             const _id = user._id
             return res.status(201).json({ user : { _id, username } })
+        }
+    })
+})
+
+userRouter.post('/getUserInfo', passport.authenticate('jwt', {session : false }), (req, res) => {
+    const { username } = req.body;
+    User.findOne({username}, (err, user) => {
+        if (err) {
+            return res.status(500).json({ message : { msgBody : "Error has occured", msgError : true } })
+        }
+        else {
+            const info = user.information
+            const firstName = user.firstName
+            const lastName = user.lastName
+            const dateOfBirth = user.dateOfBirth
+            return res.status(201).json({ user : { username, firstName, lastName, dateOfBirth, info } })
         }
     })
 })

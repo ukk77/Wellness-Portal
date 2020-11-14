@@ -33,7 +33,6 @@ function ScheduleAppointment(props) {
     const [patientUser, setPatientUser] = useState({ username : "" })
     const [doctorUser, setDoctorUser] = useState({ username : "" })
     const [msg, setMsg] = useState("")
-    const [bookingArr, setBookingArr] = useState([])
     
     useEffect( async () => {
         let patientname = user.username
@@ -52,7 +51,9 @@ function ScheduleAppointment(props) {
     }
 
     const bookingDateChange = async (date) => {
-        await setBooking({...booking,  bookingDate : date })
+        let [month, datex, year] = new Date(date).toLocaleDateString("en-US").split("/")
+        let dateVar = "" + month.toString() + "-" + datex.toString() + "-" + year.toString()
+        await setBooking({...booking,  bookingDate : dateVar })
     }
 
     const handleDoctorTypeChange = async (e) => {
@@ -76,11 +77,12 @@ function ScheduleAppointment(props) {
     }
 
     const onSelect = async (e) => {
-        // await handleDateSet()         
-        
-        let booking_str = 'Booking for ' + booking.doctorName + ' on ' + booking.bookingDate
-        
+        // let [month, datex, year] = new Date(date).toLocaleDateString("en-US").split("/")
+        // let dateVar = "" + month.toString() + "-" + datex.toString() + "-" + year.toString()
+        let booking_str = 'Booking for ' + booking.doctorName + ' on ' + booking.bookingDate        
         const localUser = { username : user.username, bookings : booking_str  }
+
+        let access_updater = { username : doctorUser.username, access_to : user.username }  
 
         await AppointmentService.bookanappointment(booking)
         .then(data => {
@@ -90,8 +92,10 @@ function ScheduleAppointment(props) {
         AuthService.updateBookings(localUser)
         .then(data => data)
 
-        // AuthService.updateAccessTo(user)
-        // .then(data => data)
+        AuthService.updateAccessTo(access_updater)
+        .then(data => data)
+
+        props.history.push('/Profile')
 
     }
 

@@ -41,7 +41,7 @@ export default {
                         return res.json().then(data => data)
                     }
                     else {
-                        return {isAuthenticated : false, user : {username : "", firstName : "", lastName : "", dateOfBirth : new Date(), role : "", bookings : [], access_to : [], information : 
+                        return {isAuthenticated : false, user : {username : "", firstName : "", lastName : "", dateOfBirth : "", role : "", bookings : [], access_to : [], information : 
                         { gender : "", age : 0, blood_type : "" }}}
                     }
                 } )
@@ -95,6 +95,17 @@ export default {
 
     updateAccessTo : user => {
         return fetch('user/updateaccessto', {
+            method: 'POST',
+            body: JSON.stringify(user),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then(res => res.json())
+            .then(data => data)
+    },
+
+    getUserInfo : user => {
+        return fetch('user/getUserInfo', {
             method: 'POST',
             body: JSON.stringify(user),
             headers: {

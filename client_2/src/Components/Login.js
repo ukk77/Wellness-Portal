@@ -8,6 +8,8 @@ import AuthService from '../Services/AuthService'
 import { AuthContext } from '../Context/AuthContext'
 import Message from './Message'
 
+//bring getInfo function and gather data here for patients
+
 function Login(props) {
 
     const [user, setUser] = useState({ username : "", password : "" }) 
@@ -26,7 +28,6 @@ function Login(props) {
 
 
     const onSubmit = (e) => {
-        e.preventDefault();
         AuthService.login(user)
         .then(data => {
             const { isAuthenticated, user, message } = data

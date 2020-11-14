@@ -10,6 +10,7 @@ import About from './Components/About'
 import SearchForDoctors from './Components/SearchForDoctors'
 import  Profile from './Components/Profile'
 import ScheduleAppointment from './Components/ScheduleAppointment'
+import Appointments from './Components/Appointments'
 
 function App() {
   const { user,setUser, isAuthenticated, setIsAuthenticated } = useContext(AuthContext)
@@ -25,7 +26,7 @@ function App() {
           <Route path="/SearchForDoctors" exact component={SearchForDoctors}/>
           <Route path="/Profile" exact component={Profile}/> 
           <Route path="/ScheduleAppointment" exact component={ScheduleAppointment}/> 
-          <Route path="/Appointments" exact component={ScheduleAppointment}/> 
+          <Route path="/Appointments" exact component={Appointments}/> 
         </Switch>
       </Router>
     </div>
