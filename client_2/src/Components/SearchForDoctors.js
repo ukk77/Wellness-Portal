@@ -7,7 +7,8 @@ import { Button,
     makeStyles,
     CardActions,
     CardActionArea,
-    Typography 
+    Typography,
+    Divider 
 } from '@material-ui/core';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
@@ -15,8 +16,9 @@ import './SearchForDoctors.css'
 import DoctorService from '../Services/DoctorService'
 import purple from '@material-ui/core/colors/purple';
 
+// Handles the search doctors page and it's sections
 function SearchForDoctors() {
-    const [doctor, setDoctor] = useState({ doctorType : "" });
+    const [doctor, setDoctor] = useState({ doctorType : "gynecologists" });
     const [result, setResult] = useState(null);
     const [display, setDisplay] = useState(false);
 
@@ -30,28 +32,34 @@ function SearchForDoctors() {
         />
     );
 
+    //This function handles changes to the doctor type search field
     const handleChange = (e) => {
         setDoctor({...doctor, [e.target.name] : e.target.value });
     };
       
+    //This function uses the doctorservice method of searchDoctor to search for the type of doctor selected by the user
     const onSubmit =  async (e) => {
         DoctorService.searchDoctor(doctor)
         .then(data => {
+            if(data.length!==0){
             let tempRes = data.message.msgBody
             setResult(tempRes)
             setDisplay(true) 
+        }
         })
     }
 
-
+    //Style function that defines the style for the mentioned classes
     const useStyles = makeStyles( theme => ({
         FormControl : {
             minWidth : 300,
+
         },
         root: {
             minWidth: 400,
             maxWidth: 500,
-            margin: 10
+            margin: 10,
+           
           },
           bullet: {
             display: 'inline-block',
@@ -75,23 +83,23 @@ function SearchForDoctors() {
             <CardContent>
             <Typography variant="h5" component="h2">
                 <FormControl className={classes.FormControl}>
-                <InputLabel>Select doctor speciality</InputLabel>
-                <Select className="dropdown" onChange={ handleChange } name="doctorType" >
+                <h4 style={{fontFamily:"Book Antiqua"}}>Select doctor speciality</h4>
+                <Select className="dropdown" value={doctor.doctorType} onChange={ handleChange } name="doctorType" >
                     <MenuItem value={'gynecologists'}>Gynecologists</MenuItem>
-                    <ColoredLine color={purple}/>
+                    <Divider/>
                     <MenuItem value={'cardiologists'}>Cardiologists</MenuItem>
-                    <ColoredLine color={purple}/>
+                    <Divider/>
                     <MenuItem value={'gastroenterologists'}>Gastroenterologists</MenuItem>
-                    <ColoredLine color={purple}/>
+                    <Divider/>
                     <MenuItem value={'psychiatrists'}>Psychiatrists</MenuItem>
-                    <ColoredLine color={purple}/>
+                    <Divider/>
                     <MenuItem value={'radiologists'}>Radiologists</MenuItem>    
-                    <ColoredLine color={purple}/>
+                    <Divider/>
                 </Select>
                 </FormControl><br/><br/>
                 <CardActionArea>
                 <CardActions>
-                    <Button size="small" color="primary" onClick={onSubmit}>
+                    <Button  size="small" color="primary" onClick={onSubmit}>
                         Search
                     </Button>
                 </CardActions>
@@ -103,17 +111,18 @@ function SearchForDoctors() {
             </div>
 
             <div>
+            {/* Hidden section that appears when a doctor type is selected */}
                 {display? 
                     <div className="display">
                         <ul>
                             {result.map(res => <li >
                                     <h5>Doctor Name : {res.name}</h5>
-                                    <h5>Doctor Speciality : {res.speciality}</h5>
-                                    <h5>Doctor working days : {res.workingDays}</h5>
-                                    <h5>Doctor Qualification : {res.qualification}</h5>
-                                    <h5>Doctor experience : {res.experience}</h5>
+                                    <h5 style={{marginTop:"-5px"}}>Doctor Speciality : {res.speciality}</h5>
+                                    <h5 style={{marginTop:"-5px"}}>Doctor working days : {res.workingDays}</h5>
+                                    <h5 style={{marginTop:"-5px"}}>Doctor Qualification : {res.qualification}</h5>
+                                    <h5 style={{marginTop:"-5px"}}>Doctor experience : {res.experience}</h5>
                                     <ColoredLine color={purple}/>
-                                    <ColoredLine color={purple}/>
+                            
                                 </li>)}
                         </ul>
                     </div>  : null}

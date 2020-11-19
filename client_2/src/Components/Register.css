@@ -1,20 +1,21 @@
 
-.wrapper{
-    background: linear-gradient(45deg,  rgb(233, 150, 150), rgb(161, 161, 245));
-    background-color:rgb(195, 199, 199);
+.register_wrapper{
+    /* background: linear-gradient(45deg,  rgb(233, 150, 150), rgb(161, 161, 245)); */
+
+    background-color:rgba(169,169,169,0.3);
     position: absolute;
     width:50%;
-    height: 50%;
+    height: 60%;
     left:50%; 
     top: 50%;
     transform: translate(-50%,-50%);
 }
 
-.login_form_wrapper{
+.register_form_wrapper{
     display: block;
 }
 
-.login_form{
+.register_form{
     display: block;
     margin: 20px;
     justify-content: space-evenly;
@@ -26,25 +27,48 @@
 }
 
 .username_field{
-    margin: 20px;
-}
+    margin: 0px 20px;
+    width: 725px;
+    position: relative;
+    left:-19px;}
 
 .password_field{
-    margin: 20px;
+    margin: 0px 20px 20px 20px;
+    width: 725px;
+    position: relative;
+    left:-19px;
 }
 
 .firstName_box{
     margin: 10px;
+    width: 346px;
+
 }
 
 .lastName_box{
     margin: 10px;
+    width: 346px;
+
 }
 
 .MuiFormControl-root{
-    margin: 5px;
+    margin: 10px;
+    position: relative;
+    /* left:13%; */
+    width:70%;
 }
 
 .MuiButton-root{
     margin: 5px;
+    justify-content: center;
+    transform:translateX(180px) ;
+}
+
+.inputs--register{
+    position: relative;
+    left: 14%;
+    margin-top: 10%;
+}
+.register_button{
+    left: 36%;
 }

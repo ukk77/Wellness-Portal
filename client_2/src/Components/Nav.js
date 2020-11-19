@@ -4,9 +4,12 @@ import './Nav.css'
 import AuthService from '../Services/AuthService'
 import { AuthContext } from '../Context/AuthContext'
 
+//Nav bar component 
 function Nav(props) {
     const { user,setUser, isAuthenticated, setIsAuthenticated, patientData, setPatientData } = useContext(AuthContext)
 
+//function to handle logout when logout button is clicked.
+//Logout is handled using the AuthService logout method and by clearing the states in the AuthContext i.e the frontend
     const onCLickLogoutHandler = () => {
         AuthService.logout()
         .then(data => {
@@ -18,6 +21,7 @@ function Nav(props) {
         })
     }
 
+//Nav bar if a user is not logged-in/ not authenticated
     const unAuthenticatedNav = () => {
         return (
             <Fragment>
@@ -34,7 +38,9 @@ function Nav(props) {
         )
     }
 
+//nav bar if a user is authenticated
     const authenticatedNav = () => {
+        //Nav bar if the authenticated user is a Doctor
         if (user.role == 'Doctor'){
             return (
                 <Fragment>
@@ -44,7 +50,7 @@ function Nav(props) {
                 <li><Link to="/Appointments">Appointments</Link></li>
                 <li><Link to="/About">About</Link></li>
                     <span className="rightvalues">	
-                        <li><Link to="/Profile">Profile</Link></li>
+                        <li><Link to="/Profile_Doctors">Profile</Link></li>
                         <li><Link to="/" onClick={onCLickLogoutHandler}>Logout</Link></li>
                     </span>
                 </ul>
@@ -52,6 +58,7 @@ function Nav(props) {
             )
         }
         else{
+            //Nav bar if the authenticated user is a patient
             return (
                 <Fragment>
                 <ul>

@@ -3,7 +3,9 @@ import { BrowserRouter as Router, useHistory } from "react-router-dom";
 import './Homepage.css'
 import Nav from './Nav'
 
+//Homepage component 
 function Homepage() {
+	//history object from the react router that is used for navigation and path setting
 	const history = useHistory();
 	
 	return (

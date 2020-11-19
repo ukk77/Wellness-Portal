@@ -1,8 +1,37 @@
 .doctor_select{
-    margin-top: 10%;
-    margin-left: 30%;
+    margin-top: 8%;
+    margin-left: 25%;
 }
 
 .date_select{
-    margin-left: 30%;
+    margin-top: 8%;
+    margin-left: 5%;
+}
+
+.MuiFormControl-root{
+    margin: 0px;
+    /* position: relative; */
+    /* left:13%; */
+    width:70%;
+}
+
+.MuiButton-root{
+    margin: 0px;
+    justify-content: center;
+    transform:none ;
+}
+.schedule{
+    position: relative;
+    left:50%;
+}
+
+.schedule_appointment_form{
+    display: flex;
+}
+.display{
+    top:20%;
+}
+
+.doctor_select_hidden{
+    margin-top: 10%;
 }

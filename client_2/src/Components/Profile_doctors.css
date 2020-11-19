@@ -16,15 +16,15 @@
 .booking_list_element{
     align-items: center
 }
-
-.firstName{
-    padding: 0px 10px 10px 10px;
-    
-}
 p{
     font-family: "Book Antiqua";
     font-size:25px;
 }
+.firstName{
+    padding: 0px 10px 10px 10px;
+    
+}
+
 .lastName{
     padding: 0px 10px 10px 10px;
 }
@@ -40,8 +40,4 @@ p{
 
 .bloodType{
     padding: 10px 10px 10px 10px;
-}
-.show_bookings{ padding: 10px 10px 10px 10px;
-   
-
 }

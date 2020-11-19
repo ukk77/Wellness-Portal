@@ -11,20 +11,22 @@ export default ({ children }) => {
     const [isLoaded, setIsLoaded] = useState(false);
     const [patientData, setPatientData] = useState([])
 
-    //[] in the end of useEffect acts as the component did mount lifecycle method
+    //getInfo function is used when a doctor logs in.
+    /*This function gets data for all those patients that the authenticated doctor has access to i.e the patients that 
+    have an appointment with this doctor*/
     const getInfo = async (name) => {
         await AuthService.getUserInfo(name)
        .then( data => {
-           setPatientData(patientData => [...patientData, data ])
+        setPatientData(patientData => [...patientData, data ])
        })
     }
 
+    //[] in the end of useEffect acts as the component did mount lifecycle method
     useEffect(async () => {
         await AuthService.isAuthenticated().
         then( data => {
             setUser(data.user)
             setIsAuthenticated(data.isAuthenticated)
-            setIsLoaded(true)
             if(data.user.role === "Doctor"){
                 data.user.access_to.map(
                     res => {
@@ -32,6 +34,7 @@ export default ({ children }) => {
                     }
                 )
             }
+            setIsLoaded(true)
         })
     },[])
     

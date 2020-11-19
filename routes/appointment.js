@@ -27,4 +27,19 @@ appointmentRouter.post('/bookanappointment', passport.authenticate('jwt', {sessi
     })
 })
 
+//method to find an appointment in teh appointments collection
+appointmentRouter.post('/findAppointment', passport.authenticate('jwt', {session : false }), (req, res) => {
+    const { doctorName } = req.body;
+    Appointment.find({}).sort('bookingDate').exec({ doctorName }, (err, appointments) => {
+        if (err){
+            return res.status(500).json({ message : { msgBody : err + " Error has occured", msgError : true } })
+        }
+        else{
+            // console.log(appointments)
+            return res.status(201).json({ appointments })
+        }
+    })
+})
+
+
 module.exports = appointmentRouter;

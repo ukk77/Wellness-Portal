@@ -11,11 +11,17 @@ import SearchForDoctors from './Components/SearchForDoctors'
 import  Profile from './Components/Profile'
 import ScheduleAppointment from './Components/ScheduleAppointment'
 import Appointments from './Components/Appointments'
+import Profile_Doctors from './Components/Profile_Doctors'
+
+//App.js is the topmost component after index.documentation-sidebar
+/*App.js uses React Router concept that uses the Router, Switch, Route and Link tags to let the users 
+navigate from one page to another*/
+//Below the Route is a path to the given path/ page and the following component is what will be displayed at that page.
 
 function App() {
   const { user,setUser, isAuthenticated, setIsAuthenticated } = useContext(AuthContext)
   return (
-    <div className="App">
+    <div>
       <Router>
         <Nav/>
         <Switch>
@@ -25,6 +31,7 @@ function App() {
           <Route path="/About" exact component={About}/> 
           <Route path="/SearchForDoctors" exact component={SearchForDoctors}/>
           <Route path="/Profile" exact component={Profile}/> 
+          <Route path="/Profile_Doctors" exact component={Profile_Doctors}/> 
           <Route path="/ScheduleAppointment" exact component={ScheduleAppointment}/> 
           <Route path="/Appointments" exact component={Appointments}/> 
         </Switch>

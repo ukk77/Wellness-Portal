@@ -1,9 +1,9 @@
 
 .wrapper{
-    background-color:rgb(195, 199, 199);
+    background-color:rgba(169,169,169,0.3);
     position: absolute;
-    width:40%;
-    height: 50%;
+    width:50%;
+    height: 60%;
     left:50%; 
     top: 50%;
     transform: translate(-50%,-50%);
@@ -14,8 +14,17 @@
 }
 
 .login_form{
-    display: flex;
+    display: block;
     margin: 20px;
     justify-content: space-evenly;
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,28%);
+}
+
+.inputs{
+    position: relative;
+    left:47px;
 }
    

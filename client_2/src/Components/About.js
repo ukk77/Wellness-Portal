@@ -1,8 +1,9 @@
 import React from 'react'
 
+//About page component
 function About() {
     return (
-        <div>
+        <div style={{backgroundImage:"none"}}>
            Developed by Uddesh Karda and Shewta Vijay Wahane  
         </div>
     )

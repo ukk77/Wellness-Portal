@@ -143,7 +143,7 @@ userRouter.post('/updateaccessto', passport.authenticate('jwt', {session : false
     })
 })
 
-
+//route to handle requests that fetch for a user's id
 userRouter.post('/getUserId', passport.authenticate('jwt', {session : false }), (req, res) => {
     const { username } = req.body;
     User.findOne({username}, (err, user) => {
@@ -158,6 +158,7 @@ userRouter.post('/getUserId', passport.authenticate('jwt', {session : false }), 
     })
 })
 
+//route to handle requests that try to fetch a user's info
 userRouter.post('/getUserInfo', passport.authenticate('jwt', {session : false }), (req, res) => {
     const { username } = req.body;
     User.findOne({username}, (err, user) => {
@@ -169,7 +170,8 @@ userRouter.post('/getUserInfo', passport.authenticate('jwt', {session : false })
             const firstName = user.firstName
             const lastName = user.lastName
             const dateOfBirth = user.dateOfBirth
-            return res.status(201).json({ user : { username, firstName, lastName, dateOfBirth, info } })
+            const bookings = user.bookings
+            return res.status(201).json({ user : { username, firstName, lastName, dateOfBirth, bookings, info } })
         }
     })
 })

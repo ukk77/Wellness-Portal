@@ -9,7 +9,9 @@ import { Button,
     makeStyles,
     CardActions,
     CardActionArea,
-    Typography 
+    Typography,
+    StylesProvider,
+    Divider 
 } from '@material-ui/core';
 import DoctorService from '../Services/DoctorService'
 import AuthService from '../Services/AuthService'
@@ -18,22 +20,26 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import {
     DatePicker,
-    MuiPickersUtilsProvider
+    KeyboardTimePicker, 
+    MuiPickersUtilsProvider,
+    TimePicker
   } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 import Message from './Message'
 
 function ScheduleAppointment(props) {
     const { user,setUser, isAuthenticated, setIsAuthenticated } = useContext(AuthContext)
-    const [doctor, setDoctor] = useState({ doctorType : "" });
+    const [doctor, setDoctor] = useState({ doctorType : "gynecologists" });
     const [result, setResult] = useState(null);
     const [display, setDisplay] = useState(false);
     const [selectedDate, handleDateChange] = useState(new Date());
-    const [booking, setBooking] = useState({ patientName : "", bookingDate : null , doctorName : "" })
+    const [booking, setBooking] = useState({ patientName : "", bookingDate : selectedDate , doctorName : "" })
     const [patientUser, setPatientUser] = useState({ username : "" })
     const [doctorUser, setDoctorUser] = useState({ username : "" })
-    const [msg, setMsg] = useState("")
-    
+    const [msg, setMsg] = useState(null)
+    const [selectedTime, handleTimeChange] = useState(new Date());
+
+
     useEffect( async () => {
         let patientname = user.username
         await setBooking({...booking,  patientName : patientname }) 
@@ -46,8 +52,14 @@ function ScheduleAppointment(props) {
 
 
     const handleDateSet = async (date) => {
-        await handleDateChange(date)
-        await bookingDateChange(date)
+        let d = new Date()
+        if (date <= d){
+            setMsg({msgBody: "Please enter a valid date"})
+        }
+        else{
+            await handleDateChange(date)
+            await bookingDateChange(date)
+        }
     }
 
     const bookingDateChange = async (date) => {
@@ -62,6 +74,7 @@ function ScheduleAppointment(props) {
     };
       
     const handleDoctorChange = (e) => {
+        
         let docName = e.target.value
         setBooking({...booking,  doctorName : docName })
         setDoctorUser({...doctorUser, username : docName })
@@ -72,18 +85,23 @@ function ScheduleAppointment(props) {
         .then(data => {
             let tempRes = data.message.msgBody
             setResult(tempRes)
-            setDisplay(true) 
+            setDisplay(true)
+            // console.log(tempRes) 
         })
     }
 
     const onSelect = async (e) => {
         // let [month, datex, year] = new Date(date).toLocaleDateString("en-US").split("/")
         // let dateVar = "" + month.toString() + "-" + datex.toString() + "-" + year.toString()
-        let booking_str = 'Booking for ' + booking.doctorName + ' on ' + booking.bookingDate        
+        let ampmSelector = selectedTime.getHours() >= 12? 'pm' : 'am'; 
+        let minuteChecker = selectedTime.getMinutes() < 10? '0' : '';
+        let hourChecker = selectedTime.getHours() >= 12? 12 : 0
+        let time_str = "" + ( selectedTime.getHours() - hourChecker ) + ":" + minuteChecker + selectedTime.getMinutes() + " " + ampmSelector
+        let booking_str = 'Booking for ' + booking.doctorName + ' on ' + booking.bookingDate + ' at ' + time_str    
         const localUser = { username : user.username, bookings : booking_str  }
-
+        
         let access_updater = { username : doctorUser.username, access_to : user.username }  
-
+        
         await AppointmentService.bookanappointment(booking)
         .then(data => {
             setMsg(data)
@@ -106,6 +124,7 @@ function ScheduleAppointment(props) {
     const useStyles = makeStyles( theme => ({
         FormControl : {
             minWidth : 300,
+            padding:19,
         },
         root: {
             minWidth: 350,
@@ -128,22 +147,32 @@ function ScheduleAppointment(props) {
     const classes  = useStyles()
 
     return (
-        <div className="schedule_appointment_form">
-        <div className="doctor_select">
-        <div>
-            <Card className={classes.root}>
+        <StylesProvider>
+        <div className="schedule_appointment_form" >
+        <div className="doctor_select" >
+        <div >
+            <Card className={classes.root} >
             <CardContent>
+
             <Typography variant="h5" component="h2">
+                
                 <FormControl className={classes.FormControl}>
-                <InputLabel>Select doctor speciality</InputLabel>
-                <Select className="dropdown" onChange={ handleDoctorTypeChange } name="doctorType" >
-                    <MenuItem value={'gynecologists'}>Gynecologists</MenuItem>
-                    <MenuItem value={'cardiologists'}>Cardiologists</MenuItem>
-                    <MenuItem value={'gastroenterologists'}>Gastroenterologists</MenuItem>
-                    <MenuItem value={'psychiatrists'}>Psychiatrists</MenuItem>
-                    <MenuItem value={'radiologists'}>Radiologists</MenuItem>    
+                <h4 style={{fontFamily:"Book Antiqua"}}>Select doctor speciality</h4>
+                <Select className="dropdown" value={doctor.doctorType} onChange={ handleDoctorTypeChange } name="doctorType" >
+                <MenuItem value={'gynecologists'}>Gynecologists</MenuItem>
+                <Divider/>
+                <MenuItem value={'cardiologists'}>Cardiologists</MenuItem>
+                <Divider/>
+                <MenuItem value={'gastroenterologists'}>Gastroenterologists</MenuItem>
+                <Divider/>
+                <MenuItem value={'psychiatrists'}>Psychiatrists</MenuItem>
+                <Divider/>
+                <MenuItem value={'radiologists'}>Radiologists</MenuItem>    
+                <Divider/>    
                 </Select>
-                </FormControl><br/><br/>
+                </FormControl>
+                
+                <br/><br/>
                 <div>
                     <CardActionArea>
                     <CardActions>
@@ -154,8 +183,11 @@ function ScheduleAppointment(props) {
                     </CardActionArea>
                 </div>
             </Typography>
+            
             </CardContent>
             </Card>
+            <div className="doctor_select_hidden">
+            
             {
                 display? 
                 <Card className={classes.root}>
@@ -166,7 +198,7 @@ function ScheduleAppointment(props) {
                         <InputLabel>Select doctor</InputLabel>
                         <Select className="dropdown" onChange={ handleDoctorChange } name="doctorName" >
                                 {result.map(res => <MenuItem value={res.name}>
-                                        <h5>Doctor Name : {res.name}, &nbsp; Doctor working days : {res.workingDays}, &nbsp;</h5>
+                                        <h5>Doctor Name : {res.name} </h5>
                                     </MenuItem>)}
                         </Select>
                         </FormControl><br/><br/>
@@ -175,6 +207,7 @@ function ScheduleAppointment(props) {
                 </CardContent>
                 </Card> : null
             }
+            </div>
         </div>
         </div>
 
@@ -186,7 +219,20 @@ function ScheduleAppointment(props) {
                 </Typography>
                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
                 <DatePicker value={selectedDate} onChange={handleDateSet} />
+                { msg?  <Message  message={msg}/> : null }
+                <br/><br/><br/>
+                <Typography>
+                    Select Time for visit : <br/><br/>
+                </Typography>
+                <TimePicker
+                    autoOk 
+                    placeholder="08:00 AM"
+                    mask="__:__ _M"
+                    value={selectedTime}
+                    onChange={date => handleTimeChange(date)}
+                />
                 </MuiPickersUtilsProvider>
+                <br/>
                 <CardActionArea>
                     <CardActions>
                     <Button size="small" color="primary" onClick={onSelect}>
@@ -196,9 +242,16 @@ function ScheduleAppointment(props) {
                 </CardActionArea>
             </CardContent>
             </Card>
+            {
+                // <div style={{ width : 300 }}>
+                // { msg?  <Message  message={msg}/> : null }
+                // </div>
+            }
         </div>
 
         </div>
+        </StylesProvider>
+        
     )
 }
 

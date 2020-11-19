@@ -1,10 +1,6 @@
 export default{
-    // addDoctor : (doctor) => {
-    //     return fetch('/doctors/adddoctors')
-    //     .then(res => res.json())
-    //     .then(data => data)
-    // }
 
+    //Method to send request to the route doctor/searchdoctors, which searches for a doctor given the doctor type
     searchDoctor : (doctorType) => {
         return fetch('/doctors/searchdoctors', {
             method : 'POST',

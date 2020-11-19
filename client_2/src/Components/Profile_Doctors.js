@@ -23,11 +23,11 @@ import {
     MuiPickersUtilsProvider
   } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
-import './Profile.css'
+import './Profile_doctors.css'
 import Message from './Message'
 
-//Profile component that shows a user's profile 
-function Profile(props) {
+//Profile component that shows a doctor's profile 
+function Profile_Doctors(props) {
     const { user,setUser, isAuthenticated, setIsAuthenticated } = useContext(AuthContext)
     const [msg,setMsg] = useState("")
     const [changeGender, setChangeGender] = useState(false)
@@ -38,12 +38,13 @@ function Profile(props) {
     const [changeDateOfBirth, setChangeDateOfBirth] = useState(false)
     const [selectedDate, handleDateChange] = useState(new Date());
     
-    //Styles for different sections on the profile page
+    // styling for different elements in this component
     const useStyles = makeStyles({
         root: {
           minWidth: 310,
           maxWidth: 375,
-          margin: 1
+          margin: 1,
+         
         },
         bullet: {
           display: 'inline-block',
@@ -60,22 +61,24 @@ function Profile(props) {
             minWidth : 300,
             marginLeft : 10,
             marginTop : 10,
-            marginRight : 10
+            marginRight : 10,
         },
         demo: {
           },
         list:{
             padding : 20,
             width: '100%',
-            maxWidth: 900,
+            maxWidth: 825,
             alignContent: 'center',
             maxHeight : 200,
-            overflow : 'auto'
+            overflow : 'auto',
+            
         },
         bookingCard : {
-            minWidth: 970,
-            maxWidth: 970,
-            margin: 1
+            minWidth: 935,
+            maxWidth: 935,
+            margin: 1,
+            
         }
     });
     
@@ -92,6 +95,11 @@ function Profile(props) {
     //Checks to see if the user accessing the page is authenticated or not, if not the user is redirected to the login page
     if (!isAuthenticated){
         props.history.push('/Login')
+    }
+
+    //Checks to see if the user accessing the page has the role of a doctor or not, if not the user is redirected to the home page
+    if(user.role !== "Doctor"){
+        props.history.push('/')
     }
     
     //Handles date of birth changes
@@ -134,11 +142,12 @@ function Profile(props) {
         setUser({...user, [e.target.name] : e.target.value })
     }
 
+    
     // const handleDateOfBirthChange = (e) => {
     //     setUser({...user, [e.target.name] : e.target.value })
     // }
 
-    /*This function uses the Authservice update profile function to update the user's 
+        /*This function uses the Authservice update profile function to update the user's 
     profile based on the changes made by him*/
     const onSubmit = () => {
         setChangeAge(false)
@@ -192,10 +201,9 @@ function Profile(props) {
                 <Card className={classes.root}>
                     <CardContent>
                         <Typography variant="h5" component="h2">
-                        <p> FirstName : {user.firstName}</p><br/><br/>
+                           <p> FirstName :{user.firstName}</p> <br/><br/>
                             <CardActionArea>
                             <CardActions>
-                            {/*Displays hidden field to change first name */}
                             { changeFirstName?
                                 <form className={classes.root} noValidate autoComplete="off">
                                   <TextField id="outlined-basic" label="firstName" name="firstName" variant="outlined" onChange={handleFirstNameChange}/>
@@ -220,10 +228,9 @@ function Profile(props) {
                 <Card className={classes.root}>
                     <CardContent>
                         <Typography variant="h5" component="h2">
-                        <p>    LastName : {user.lastName}</p><br/><br/>
+                        <p>  LastName : {user.lastName}</p><br/><br/>
                             <CardActionArea>
                             <CardActions>
-                            {/*Displays hidden field to change last name */}
                             { changeLastName?
                                 <form className={classes.root} noValidate autoComplete="off">
                                   <TextField id="outlined-basic" label="lastName" name="lastName" variant="outlined" onChange={handleLastNameChange}/>
@@ -248,10 +255,9 @@ function Profile(props) {
                 <Card className={classes.root}>
                     <CardContent>
                         <Typography variant="h5" component="h2">
-                        <p> Date of Birth : {user.dateOfBirth.slice(0, 10)}</p><br/><br/>
+                           <p> Date of Birth : {user.dateOfBirth.slice(0, 10)}</p><br/><br/>
                             <CardActionArea>
                             <CardActions>
-                            {/*Displays hidden field to change date of birth */}
                                 {   
                                     changeDateOfBirth?
                                     <div>
@@ -282,10 +288,9 @@ function Profile(props) {
                     <Card className={classes.root}>
                         <CardContent>
                             <Typography variant="h5" component="h2">
-                            <p> Gender : {user.information.gender}</p><br/><br/>
+                            <p> Gender : {user.information.gender} </p><br/><br/>
                                 <CardActionArea>
                                 <CardActions>
-                                {/*Displays hidden field to change gender */}
                                 {changeGender?
                                     <div className="gender_dropdown">
                                         <FormControl className={classes.FormControl}>
@@ -316,10 +321,9 @@ function Profile(props) {
                     <Card className={classes.root}>
                         <CardContent>
                             <Typography variant="h5" component="h2">
-                            <p> Age : {user.information.age}</p><br/><br/>
+                            <p>   Age : {user.information.age}</p><br/><br/>
                                 <CardActionArea>
                                 <CardActions>
-                                {/*Displays hidden field to change age */}
                                 { changeAge?
                                 <form className={classes.root} noValidate autoComplete="off">
                                   <TextField id="outlined-basic" label="age" name="age" variant="outlined" onChange={handleAgeChange}/>
@@ -342,10 +346,9 @@ function Profile(props) {
                     <Card className={classes.root}>
                         <CardContent>
                             <Typography variant="h5" component="h2">
-                            <p>  Blood Type : {user.information.blood_type}</p><br/><br/>
+                            <p> Blood Type : {user.information.blood_type}</p><br/><br/>
                                 <CardActionArea>
                                 <CardActions>
-                                {/*Displays hidden field to change blood type */}
                                 {  changeBloodType? 
                                 <div className="blood_type_dropdown">
                                     <FormControl className={classes.FormControl}>
@@ -376,31 +379,8 @@ function Profile(props) {
                     </Card>
                 </div>
             </div>
-            <div className="show_bookings">
-            <Card className={classes.bookingCard}>
-            <CardContent>
-            <Typography>
-                <h4> <p>Bookings</p></h4>
-                <div className={classes.list}>
-                <List component="nav" aria-label="booking_display">
-                {/*Displays users bookings/appointments */}
-                    {user.bookings.map(res => 
-                        <div className="booking_list_element">
-                        <ListItem>
-                            <ListItemText primary = {"\u2022  " + res} />
-                        </ListItem>
-                        <Divider/>
-                        </div>
-                    )}
-                                
-                </List>
-                </div>
-            </Typography>
-            </CardContent>
-            </Card>
-            </div>
         </div>
     )
 }
 
-export default Profile
+export default Profile_Doctors
