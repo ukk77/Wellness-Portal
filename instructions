@@ -1,10 +1,10 @@
 To run the project first install npm.<br/>
-Further go into the project directory, open the terminal and enter the command 'npm install' to install the node modules.<br/>
-Enter command 'npm run client-install' to install modules for the client side(client_2/ frontend).<br/>
-Further depending on youe requirements run any of the following commands-<br/>
-'npm run dev_2' - to start both the server and the client at the same time and get the experience of the whole website.<br/>
-'npm run server_2' - to only start the server.<br/>
-'npm run client_2' - to only start the client.<br/>
+Further go into the project directory, open the terminal and enter the command 'npm install' to install the node modules.
+Enter command 'npm run client-install' to install modules for the client side(client_2/ frontend).
+Further depending on youe requirements run any of the following commands-
+'npm run dev_2' - to start both the server and the client at the same time and get the experience of the whole website.
+'npm run server_2' - to only start the server.
+'npm run client_2' - to only start the client.
 
 ------sample doctor account to access-----
 username - Corey
