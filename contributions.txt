@@ -1,0 +1,41 @@
+The following are the contributions by the team members in the project: 
+
+Frontend - 
+    - Components
+        - App - Uddesh Karda
+        - Login - Uddesh Karda
+        - Register - Uddesh Karda
+        - Profile - Shweta Vijay Wahane
+        - Profile_doctors - Shweta Vijay Wahane
+        - Nav - Uddesh Karda
+        - ScheduleAppointment - Shweta Vijay Wahane
+        - Appointments - Shweta Vijay Wahane
+        - ViewAppointments - Shweta Vijay Wahane
+        - Homepage - Shweta Vijay Wahane
+        - Message - Uddesh Karda
+    
+    - Context
+        - AuthContext - Uddesh Karda
+    
+    - Services
+        - AuthService - Uddesh Karda
+        - AppointmentService - Shweta Vijay Wahane
+        - DoctorService - Shweta Vijay Wahane
+    
+
+Backend - 
+    - config
+        - default - Uddesh Karda
+    
+    - models
+        - User - Uddesh Karda
+        - Doctor - Shweta Vijay Wahane
+        - Appointment - Shweta Vijay Wahane
+    
+    - routes
+        - User - Uddesh Karda
+        - Doctor - Shweta Vijay Wahane
+        - appointment - Shweta Vijay Wahane
+    
+    -server - uddesh karda
+    -passport - Uddesh Karda
