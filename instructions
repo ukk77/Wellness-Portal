@@ -14,3 +14,8 @@ password - Cc@123456789
 ------sample patient account to access-----
 username - matt
 password - Mm@123456789
+
+
+
+Further all newly registered accounts are patient accounts by default.To have an account marked as a doctor account, only the admin has access to do it.
+In this case the admin is Uddesh Karda and only i have the account access to do it.
